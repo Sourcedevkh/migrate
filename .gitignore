@@ -1,0 +1,29 @@
+# Ignore the actual executable you create
+cpp-migrate
+*.exe
+*.out
+*.app
+
+# Ignore object files and libraries
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+
+# vscode
+.vscode/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+
+# database files
+# Ignore your actual config file if it contains real passwords
+# Keep your cpp-migrate.conf.template tracked instead
+cpp-migrate.conf
+
+#log
+*.log
