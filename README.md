@@ -1,6 +1,6 @@
 # migrate
 
-A lightweight, dependency-minimal MySQL schema migration tool written in C++17.
+A lightweight, dependency-minimal MySQL schema migration tool written in C++17. Instead of a developer manually logging into MySQL Workbench to create a table, they write a script. The tool automatically detects if that script has been run and executes it. This removes the risk of someone forgetting to update the database.
 
 ## Features
 
@@ -29,6 +29,11 @@ sudo apt update
 sudo apt install build-essential cmake libmysqlclient-dev
 ```
 
+**powershell:**
+```bash
+vcpkg install mysql-connector-cpp:x64-windows
+```
+
 **macOS:**
 ```bash
 brew install cmake mysql-client
@@ -46,7 +51,7 @@ mkdir build && cd build
 cmake ..
 make
 
-# Binary is at: build/cpp-migrate
+# Binary is at: build/migrate
 ```
 
 ---
@@ -112,7 +117,7 @@ Each file can contain one or more SQL statements separated by semicolons.
 
 ## schema_history Table
 
-cpp-migrate creates this table automatically:
+migrate creates this table automatically:
 
 ```sql
 CREATE TABLE schema_history (
