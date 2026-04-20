@@ -145,4 +145,17 @@ CREATE TABLE schema_history (
 
 ---
 
-Made with ❤️ for Cambodian developers.
+## Reporting a Vulnerability
+
+**Please do NOT report security vulnerabilities through public GitHub Issues.**
+
+If you discover a security vulnerability in this feature, please report it responsibly by emailing:
+
+📧 **khonchanphearaa@gmail.com**
+
+---
+
+## Contributing
+PRs and issues are welcome! This tools is built to help the Cambodian developer community.
+
+
