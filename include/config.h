@@ -15,7 +15,7 @@ struct Config
     std::string migrations_dir = "./migrations";
 };
 
-class ConfigManager
+class ConfigLoader
 {
 public:
     static Config load(const std::string &filepath = "cpp-migrate.conf")
