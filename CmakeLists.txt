@@ -1,0 +1,72 @@
+cmake_minimum_required(VERSION 3.16)
+project(migrate VERSION 1.0.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Find MySQL client library 
+# Try pkg-config first, then fallback to manual search
+find_package(PkgConfig QUIET)
+
+if(PkgConfig_FOUND)
+    pkg_check_modules(MYSQL QUIET mysqlclient)
+endif()
+
+if(NOT MYSQL_FOUND)
+
+    # Manual fallback paths (common on Ubuntu/Debian/macOS)
+    find_path(MYSQL_INCLUDE_DIR
+        NAMES mysql/mysql.h
+        PATHS
+            /usr/include
+            /usr/local/include
+            /opt/homebrew/include          # macOS ARM
+            /usr/local/opt/mysql/include   # macOS Intel
+    )
+
+    find_library(MYSQL_LIBRARIES
+        NAMES mysqlclient
+        PATHS
+            /usr/lib
+            /usr/lib/x86_64-linux-gnu
+            /usr/local/lib
+            /opt/homebrew/lib
+            /usr/local/opt/mysql/lib
+    )
+
+    if(NOT MYSQL_INCLUDE_DIR OR NOT MYSQL_LIBRARIES)
+        message(FATAL_ERROR
+            "MySQL client library not found.\n"
+            "Install it with:\n"
+            "  Ubuntu/Debian: sudo apt install libmysqlclient-dev\n"
+            "  macOS:         brew install mysql-client\n"
+        )
+    endif()
+endif()
+
+# Source files
+add_executable(migrate
+    src/main.cpp
+)
+
+# Include paths and link
+target_include_directories(migrate PRIVATE
+    src
+    ${MYSQL_INCLUDE_DIRS}
+    ${MYSQL_INCLUDE_DIR}
+)
+
+target_link_libraries(migrate PRIVATE
+    ${MYSQL_LIBRARIES}
+)
+
+# Compiler flags for warnings and optimizations
+target_compile_options(migrate PRIVATE
+    -Wall
+    -Wextra
+    -O2
+)
+
+message(STATUS "MySQL include: ${MYSQL_INCLUDE_DIRS} ${MYSQL_INCLUDE_DIR}")
+message(STATUS "MySQL libs:    ${MYSQL_LIBRARIES}")
+message(STATUS "Build type:    ${CMAKE_BUILD_TYPE}")
